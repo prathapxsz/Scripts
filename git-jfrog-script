@@ -10,7 +10,7 @@ git clone https://github.com/prathapxsz/script-git-jfrog.git
 cd script-git-jfrog
 #Updating tag and build number
 sed -i "s/^RUN wget.*/RUN wget https:\/\/jenkins-ovaledge-s3.s3.amazonaws.com\/jenkins-5.3-s3\/$build_number\/ovaledge.war/" ./Dockerfile
-sed -i "s/^      run.*/      run: chmod 777 run.sh && docker build . --file Dockerfile -t ovaledge.jfrog.io\/ovaledge-docker-local\/ovaledge:$tag && docker login ovaledge.jfrog.io -u shivaprasad.mergu@ovaledge.com -p 0valEdge! && docker push ovaledge.jfrog.io\/ovaledge-docker-local\/ovaledge:$tag/" ./.github/workflows./docker-image.yml
+sed -i "s/^      run:.*/      run: chmod 777 run.sh \&\& docker build . --file Dockerfile -t ovaledge.jfrog.io\/ovaledge-docker-local\/ovaledge:$tag \&\& docker login ovaledge.jfrog.io -u shivaprasad.mergu@ovaledge.com -p 0valEdge! \&\& docker push ovaledge.jfrog.io\/ovaledge-docker-local\/ovaledge:$tag/" .github/workflows/docker-image.yml
 #Pushing changed to git
 git add .
 git commit -m "Updated with latest image with tag $tag"
