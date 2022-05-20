@@ -1,0 +1,10 @@
+#!/bin/bash
+#Cloning the Repo
+git clone https://github.com/prathapxsz/script-helm-argocd.git
+cd script-helm-argocd
+read -p "Enter the same tag for docker image that we pushed earlier: " tag
+sed -i "s/^  image: .*/  image: ovaledge.jfrog.io\/ovaledge-docker-local\/ovaledge:$tag/" ./values.yaml
+git add .
+git commit -m "Updated the docker image with tag: $tag"
+git push
+echo "Updating the deployment"

@@ -1,0 +1,11 @@
+!#/bin/bash
+git clone https://github.com/prathapxsz/script-git-jfrog.git 
+cd script-git-jfrog
+sed -i "s/^"
+
+
+
+sed -i "s/^image.*/image:ovaledge.jfrog.io\/ovaledge-docker-local\/ovaledge:mcktest20/" ./Dockerfile
+git add .
+git commit -m "Updating with docker tag $Now"
+git push
