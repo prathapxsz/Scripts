@@ -2,6 +2,10 @@
 #echo "Enter tag for the docker image"
 read -p "Enter the tag for docker image: " tag
 echo $tag
+#Enter the job name by taking it from the war link For Eg. https://jenkins-ovaledge-s3.s3.amazonaws.com/jenkins-5.2-s3/3264/ovaledge.war
+#In above example, jenkins-5.2-s3 is the job name.
+read -p "Enter the job name from the war link:" job_name
+echo $job_name
 #echo "Enter the build number to take the war file"
 read -p "Enter the build number to fetch the war file: " build_number
 echo $build_number
@@ -9,7 +13,7 @@ echo $build_number
 git clone https://github.com/prathapxsz/script-git-jfrog.git
 cd script-git-jfrog
 #Updating tag and build number
-sed -i "s/^RUN wget.*/RUN wget https:\/\/jenkins-ovaledge-s3.s3.amazonaws.com\/jenkins-5.3-s3\/$build_number\/ovaledge.war/" ./Dockerfile
+sed -i "s/^RUN wget.*/RUN wget https:\/\/jenkins-ovaledge-s3.s3.amazonaws.com\/$job_name\/$build_number\/ovaledge.war/" ./Dockerfile
 sed -i "s/^      run:.*/      run: chmod 777 run.sh \&\& docker build . --file Dockerfile -t ovaledge.jfrog.io\/ovaledge-docker-local\/ovaledge:$tag \&\& docker login ovaledge.jfrog.io -u shivaprasad.mergu@ovaledge.com -p 0valEdge! \&\& docker push ovaledge.jfrog.io\/ovaledge-docker-local\/ovaledge:$tag/" .github/workflows/docker-image.yml
 #Pushing changed to git
 git add .
