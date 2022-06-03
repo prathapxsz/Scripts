@@ -1,0 +1,32 @@
+#!/bin/bash
+#echo "Enter tag for the docker image"
+read -p "Enter the tag for docker image: " tag
+echo $tag
+#Enter the job name by taking it from the war link For Eg. https://jenkins-ovaledge-s3.s3.amazonaws.com/jenkins-5.2-s3/3264/ovaledge.war
+#In above example, jenkins-5.2-s3 is the job name.
+read -p "Enter the job name from the war link:" job_name
+echo $job_name
+#echo "Enter the build number to take the war file"
+read -p "Enter the build number to fetch the war file: " build_number
+echo $build_number
+#Cloning the repository from git
+git clone https://github.com/prathapxsz/script-git-jfrog.git
+cd script-git-jfrog
+#Updating tag and build number
+sed -i "s/^RUN wget.*/RUN wget https:\/\/jenkins-ovaledge-s3.s3.amazonaws.com\/$job_name\/$build_number\/ovaledge.war/" ./Dockerfile
+sed -i "s/^      run:.*/      run: chmod 777 run.sh \&\& docker build . --file Dockerfile -t ovaledge.jfrog.io\/ovaledge-docker-local\/ovaledge:$tag \&\& docker login ovaledge.jfrog.io -u shivaprasad.mergu@ovaledge.com -p 0valEdge! \&\& docker push ovaledge.jfrog.io\/ovaledge-docker-local\/ovaledge:$tag/" .github/workflows/docker-image.yml
+#Pushing changed to git
+git add .
+git commit -m "Updated with latest image with tag $tag"
+git push https://prathapxsz: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@github.com/prathapxsz/script-git-jfrog.git --all
+echo "Started building the image, check email to know if build is successful or not"
+#Updating tag in Helm repo
+git clone https://github.com/prathapxsz/script-helm-argocd.git
+cd script-helm-argocd
+#Updating the docker image tag
+sed -i "s/^  image: .*/  image: ovaledge.jfrog.io\/ovaledge-docker-local\/ovaledge:$tag/" ./values.yaml
+#Push the changes to git repo
+git add .
+git commit -m "Updated the docker image with tag: $tag"
+git push https://prathapxsz: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@github.com/prathapxsz/script-helm-argocd.git --all
+echo "Updating the deployment"
