@@ -18,7 +18,7 @@ sed -i "s/^      run:.*/      run: chmod 777 run.sh \&\& docker build . --file D
 #Pushing changed to git
 git add .
 git commit -m "Updated with latest image with tag $tag"
-git push https://prathapxsz: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@github.com/prathapxsz/script-git-jfrog.git --all
+git push https://prathapxsz:AccessToken@github.com/prathapxsz/script-git-jfrog.git --all
 echo "Started building the image, check email to know if build is successful or not"
 #Updating tag in Helm repo
 git clone https://github.com/prathapxsz/script-helm-argocd.git
@@ -28,5 +28,5 @@ sed -i "s/^  image: .*/  image: ovaledge.jfrog.io\/ovaledge-docker-local\/ovaled
 #Push the changes to git repo
 git add .
 git commit -m "Updated the docker image with tag: $tag"
-git push https://prathapxsz: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@github.com/prathapxsz/script-helm-argocd.git --all
+git push https://prathapxsz:AccessToken@github.com/prathapxsz/script-helm-argocd.git --all
 echo "Updating the deployment"
